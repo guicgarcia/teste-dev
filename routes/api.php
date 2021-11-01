@@ -17,3 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::prefix('v1')->group(function() {
+
+    Route::prefix('categories')->group(function() {
+        Route::get('', [TodoController::class, 'index']);
+        Route::get('{category}', [TodoController::class, 'show']);
+        Route::post('', [TodoController::class, 'store']);
+        Route::put('{category}', [TodoController::class, 'update']);
+        Route::delete('{category}', [TodoController::class, 'destroy']);
+    });
+
+});

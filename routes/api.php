@@ -21,12 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function() {
 
-    Route::prefix('categories')->group(function() {
-        Route::get('', [TodoController::class, 'index']);
-        Route::get('{category}', [TodoController::class, 'show']);
-        Route::post('', [TodoController::class, 'store']);
-        Route::put('{category}', [TodoController::class, 'update']);
-        Route::delete('{category}', [TodoController::class, 'destroy']);
+    Route::prefix('livros')->group(function() {
+        Route::get('', [BookController::class, 'index']);
+        Route::get('{book}', [BookController::class, 'show']);
+        Route::post('', [BookController::class, 'store']);
+        Route::put('{book}', [BookController::class, 'update']);
+        Route::delete('{book}', [BookController::class, 'destroy']);
+        Route::get('{book}', [BookController::class, 'filter']);
     });
 
 });

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Seeder;
 use App\Models\Book;
 use App\Models\Category;
-use Illuminate\Database\Seeder;
 
 class BookSeeder extends Seeder
 {
@@ -13,8 +13,13 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
-        Category::all()->each(function ($category) {
-            $category->books()->saveMany(factory(Book::class, 10)->make())
+        // Category::all()->each(function ($category) {
+        //     $category->books()->saveMany(factory(Book::class, 10)->make())
+        // });
+
+        $categories = Category::Factory(10)->create();
+        $categories->each(function($category) {
+            $category->books()->createMany(Book::factory(2)->make()->toArray());
         });
     }
 }

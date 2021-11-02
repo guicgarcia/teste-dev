@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class BookFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -15,10 +15,6 @@ class BookFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'author' => $this->faker->word,
-            //'category_id' => ,
-            'code' => $this->faker->word,
-            'size' => $this->faker->numberBetween(5, 10),
         ];
     }
 }

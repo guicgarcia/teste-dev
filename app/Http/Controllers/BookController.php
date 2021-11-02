@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Category;
 use App\Http\Resources\BookResource;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
+use App\Services\BookService;
 
 class BookController extends Controller
 {
+    private $bookService;
+
+    public function __construct(BookService $bookService)
+    {
+        $this->bookService = $bookService;
+    }
+
     public function index()
     {
          return BookResource::collection(Book::all());
@@ -45,7 +54,16 @@ class BookController extends Controller
 
     public function filter(Request $request)
     {
-        $book = Book::where('name', 'LIKE', '%' . $request->name . '%')->first();
-        dd($book->name);
+        if (!empty($request->category)) {
+            $books = $this->bookService->filterCategory($request);
+        } elseif (!empty($request->name)) {
+            $books = $this->bookService->filterName($request);
+        } elseif (!empty($request->type)) {
+            $books = $this->bookService->filterType($request);
+        }
+
+        //return BookResource::collection($books);
+
+       return response()->json($books);
     }
 }

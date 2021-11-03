@@ -23,12 +23,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function() {
 
     Route::prefix('livros')->group(function() {
-        // Route::get('', [BookController::class, 'index']);
-        // Route::get('{book}', [BookController::class, 'show']);
-        // Route::post('', [BookController::class, 'store']);
-        // Route::put('{book}', [BookController::class, 'update']);
-        // Route::delete('{book}', [BookController::class, 'destroy']);
         Route::post('filter', [BookController::class, 'filter']);
+        Route::get('categories', [BookController::class, 'categories']);
+        Route::get('', [BookController::class, 'index']);
+        Route::get('{book}', [BookController::class, 'show']);
+        Route::post('', [BookController::class, 'store']);
+        Route::put('{book}', [BookController::class, 'update']);
+        Route::delete('{book}', [BookController::class, 'destroy']);
+        
     });
 
 });

@@ -11,7 +11,7 @@ class BookService
 	{
 		$category = Category::where('name', 'LIKE', '%' . $request->category . '%')->first();
 
-		$books = Book::with('Category')->where('id', $category->id)->first();
+		$books = Book::with('Category')->where('id', $category->id)->get();
 
 		return $books;
 	}

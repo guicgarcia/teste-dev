@@ -21,7 +21,7 @@ class BookController extends Controller
 
     public function index()
     {
-         return BookResource::collection(Book::all());
+         return BookResource::collection(Book::orderBy('id', 'desc')->get());
     }
 
     public function show(Book $book)
@@ -54,16 +54,29 @@ class BookController extends Controller
 
     public function filter(Request $request)
     {
+
+        $books = $this->bookService->filterName($request);
+        return BookResource::collection($books);
+        
+        //return response()->json($books);
+
+        /*/
         if (!empty($request->category)) {
             $books = $this->bookService->filterCategory($request);
+            return response()->json($books);
         } elseif (!empty($request->name)) {
             $books = $this->bookService->filterName($request);
         } elseif (!empty($request->type)) {
             $books = $this->bookService->filterType($request);
         }
+        */
+       
+    }
 
-        //return BookResource::collection($books);
+    public function categories()
+    {
+        $categories = Category::all(); 
 
-       return response()->json($books);
+        return response()->json($categories);
     }
 }

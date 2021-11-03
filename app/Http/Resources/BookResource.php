@@ -20,8 +20,9 @@ class BookResource extends JsonResource
             'name' => (string) $this->name,
             'author' => (string) $this->author,
             'category' => Category::findOrFail($this->category_id),
-            'created_at' => (string) $this->created_at,
-            'updated_at' => (string) $this->updated_at,
+            'code' => (string) $this->code,
+            'type' => (string) $this->type,
+            'size' => (float) $this->size,
         ];
     }
 }

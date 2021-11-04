@@ -24,6 +24,9 @@ class Book extends Model
         'size',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function category()
     {
         return $this->belongsTo(Category::class);

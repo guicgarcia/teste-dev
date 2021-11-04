@@ -27,7 +27,7 @@ class BookStoreRequest extends FormRequest
             'name' => 'required|string',
             'author' => 'required|string',
             'category_id' => 'required',
-            'code' => 'required|string',
+            'code' => 'required|string|unique:books',
             'type' => 'required|string',
             'size' => 'required',
         ];

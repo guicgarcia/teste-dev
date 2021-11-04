@@ -14,21 +14,36 @@ class BookController extends Controller
 {
     private $bookService;
 
+    /**
+     * BookController constructor.
+     * @param BookService $bookService
+     */
     public function __construct(BookService $bookService)
     {
         $this->bookService = $bookService;
     }
 
+    /**
+     * @return BookResource
+     */
     public function index()
     {
-         return BookResource::collection(Book::orderBy('id', 'desc')->paginate(5));
+         return BookResource::collection(Book::orderBy('id', 'desc')->paginate(20));
     }
 
+    /**
+     * @param Book $book
+     * @return BookResource
+     */
     public function show(Book $book)
     {
         return new BookResource($book);
     }
 
+    /**
+     * @param BookStoreRequest $request
+     * @return BookResource
+     */
     public function store(BookStoreRequest $request)
     {
         $input = $request->validated();
@@ -37,6 +52,11 @@ class BookController extends Controller
         return new BookResource($book);
     }
 
+    /**
+     * @param Book $book
+     * @param BookUpdateRequest $request
+     * @return BookResource
+     */
     public function update(Book $book, BookUpdateRequest $request)
     {
         $input = $request->validated();
@@ -47,11 +67,18 @@ class BookController extends Controller
         return new BookResource($book->fresh());
     }
 
+    /**
+     * @param Book $book
+     */
     public function destroy(Book $book)
     {
         $book->delete();
     }
 
+    /**
+     * @param Request $request
+     * @return BookResource
+     */
     public function filter(Request $request)
     {
         if (!empty($request->name)) {

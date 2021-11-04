@@ -16,8 +16,8 @@ class BookFactory extends Factory
         return [
             'name' => $this->faker->word,
             'author' => $this->faker->word,
-            //'category_id' => ,
             'code' => $this->faker->word,
+            'type' => 'Arquivo digital',
             'size' => $this->faker->numberBetween(5, 10),
         ];
     }

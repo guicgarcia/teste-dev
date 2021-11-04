@@ -23,7 +23,7 @@ class CreateBooksTable extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('code')->unique();
-            $table->enum('type', ['Arquivo Digital', 'Arquivo Físico']);
+            $table->string('type');
             $table->float('size', 8, 2);
             $table->timestamps();
         });

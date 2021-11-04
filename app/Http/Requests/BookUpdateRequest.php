@@ -28,6 +28,7 @@ class BookUpdateRequest extends FormRequest
             'author' => 'required|string',
             'category_id' => 'required',
             'code' => 'required|string',
+            'type' => 'required|string',
             'size' => 'required',
         ];
     }

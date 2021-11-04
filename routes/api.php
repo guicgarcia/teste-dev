@@ -30,7 +30,6 @@ Route::prefix('v1')->group(function() {
         Route::post('', [BookController::class, 'store']);
         Route::put('{book}', [BookController::class, 'update']);
         Route::delete('{book}', [BookController::class, 'destroy']);
-        
     });
 
 });

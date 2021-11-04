@@ -7,15 +7,6 @@ use App\Models\Category;
 
 class BookService
 {
-	public function filterCategory($request)
-	{
-		$category = Category::where('name', 'LIKE', '%' . $request->category . '%')->first();
-
-		$books = Book::with('Category')->where('id', $category->id)->get();
-
-		return $books;
-	}
-
 	public function filterName($request)
 	{
 		$books = Book::where('name', 'LIKE', '%' . $request->name . '%')->get();
@@ -23,8 +14,17 @@ class BookService
 		return $books;
 	}
 
+	public function filterCategory($request)
+	{
+		$books = Book::with('Category')->where('category_id', $request->category_id)->get();
+
+		return $books;
+	}
+
 	public function filterType($request)
 	{
+		$books = Book::where('type', 'LIKE', '%' . $request->type . '%')->get();
 
+		return $books;
 	}
 }

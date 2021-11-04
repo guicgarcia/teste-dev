@@ -21,7 +21,7 @@ class BookController extends Controller
 
     public function index()
     {
-         return BookResource::collection(Book::orderBy('id', 'desc')->get());
+         return BookResource::collection(Book::orderBy('id', 'desc')->paginate(5));
     }
 
     public function show(Book $book)
@@ -54,23 +54,16 @@ class BookController extends Controller
 
     public function filter(Request $request)
     {
-
-        $books = $this->bookService->filterName($request);
-        return BookResource::collection($books);
-        
-        //return response()->json($books);
-
-        /*/
-        if (!empty($request->category)) {
-            $books = $this->bookService->filterCategory($request);
-            return response()->json($books);
-        } elseif (!empty($request->name)) {
+        if (!empty($request->name)) {
             $books = $this->bookService->filterName($request);
+            return BookResource::collection($books);
+        } elseif (!empty($request->category_id)) {
+            $books = $this->bookService->filterCategory($request);
+            return BookResource::collection($books);
         } elseif (!empty($request->type)) {
             $books = $this->bookService->filterType($request);
+            return BookResource::collection($books);
         }
-        */
-       
     }
 
     public function categories()

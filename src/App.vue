@@ -29,7 +29,7 @@
         </div>
 
         <div class="mb-3">
-          <select v-model="book.category_id" class="form-control">
+          <select v-model="book.category.id" name="category_id" class="form-control">
             <option value="">Selecione uma Categoria</option>
             <option
               v-for="categorie of categories"
@@ -173,19 +173,6 @@
           </tr>
         </tbody>
       </table>
-
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#">Anterior</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
-        </ul>
-      </nav>
-      
     </div>
   </div>
 </template>
@@ -205,6 +192,10 @@ export default {
         code: "",
         type: "",
         size: "",
+        category: {
+          id: '',
+          name: '',
+        },
       },
       category: "",
       books: [],
@@ -240,10 +231,11 @@ export default {
     },
     save() {
       if (!this.book.id) {
+        this.book.category_id = this.book.category.id;
         Book.store(this.book)
-          .then((response) => {
-            console.log(response);
-            this.book = {};
+          .then(() => {
+            // this.book.category = {};
+            // this.book = {};
             alert('Cadastrado com sucesso"');
             this.list();
             this.errors = [];
@@ -253,10 +245,11 @@ export default {
             this.errors = error.response.data.errors;
           });
       } else {
+        this.book.category_id = this.book.category.id;
         Book.update(this.book)
           .then((response) => {
             console.log(response);
-            this.book = {};
+            //this.book = {};
             alert('Atualizado com sucesso"');
             this.list();
             this.errors = [];
@@ -268,6 +261,7 @@ export default {
       }
     },
     update(book) {
+      console.log(book);
       this.book = book;
     },
     remove(book) {

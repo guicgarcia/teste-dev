@@ -208,11 +208,17 @@ export default {
   mounted() {
     this.list();
     this.listCategories();
+
+    //console.log(this.$store.actions.list);
   },
   methods: {
     list() {
-      Book.list().then((response) => {
-        console.log(response.data.data);
+      // Book.list().then((response) => {
+      //   console.log(response.data.data);
+      //   this.books = response.data.data;
+      // });
+
+      this.$store.dispatch('list').then((response) => {
         this.books = response.data.data;
       });
     },

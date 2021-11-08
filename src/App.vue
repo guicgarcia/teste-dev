@@ -9,13 +9,15 @@
 
       <h1>Crud Livros</h1>
 
+      {{ this.$store.state.book }}
+
       <form @submit.prevent="save()">
         <div class="mb-3">
           <input
             type="text"
             class="form-control"
             placeholder="Nome do Livro"
-            v-model="book.name"
+            v-model="storeBookName"
           />
         </div>
 
@@ -24,12 +26,16 @@
             type="text"
             class="form-control"
             placeholder="Nome do Autor"
-            v-model="book.author"
+            v-model="storeBookAuthor"
           />
         </div>
 
         <div class="mb-3">
-          <select v-model="book.category.id" name="category_id" class="form-control">
+          <select
+            v-model="storeBookCategory"
+            name="category_id"
+            class="form-control"
+          >
             <option value="">Selecione uma Categoria</option>
             <option
               v-for="categorie of categories"
@@ -47,12 +53,12 @@
             type="text"
             class="form-control"
             placeholder="Código"
-            v-model="book.code"
+            v-model="storeBookCode"
           />
         </div>
 
         <div class="mb-3">
-          <select v-model="book.type" class="form-control">
+          <select v-model="storeBookType" class="form-control">
             <option value="">Selecione um Tipo de Arquivo</option>
             <option value="Arquivo digital">Arquivo digital</option>
             <option value="Arquivo físico">Arquivo físico</option>
@@ -64,7 +70,7 @@
             type="number"
             class="form-control"
             placeholder="Tamanho"
-            v-model="book.size"
+            v-model="storeBookSize"
           />
         </div>
 
@@ -179,7 +185,7 @@
 
 <script>
 import Book from "./services/books";
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   name: "App",
@@ -194,8 +200,8 @@ export default {
         type: "",
         size: "",
         category: {
-          id: '',
-          name: '',
+          id: "",
+          name: "",
         },
       },
       category: "",
@@ -210,22 +216,67 @@ export default {
     this.list();
     this.listCategories();
 
-    //console.log(this.$store.actions.list);
+    console.log(this.$store.state.book);
   },
-  computed: { 
+  computed: {
     ...mapState({
-      name: state => state.name,
-      author: state => state.author,
-    })
+      id: (state) => state.id,
+      name: (state) => state.name,
+      author: (state) => state.author,
+    }),
+
+    storeBookName: {
+      get() {
+        return this.$store.state.book.name;
+      }, 
+      set(value) {
+       this.$store.dispatch('bookName', value);
+      }
+    },
+    storeBookAuthor: {
+      get() {
+        return this.$store.state.book.author;
+      }, 
+      set(value) {
+       this.$store.dispatch('bookAuthor', value);
+      }
+    },
+    storeBookCategory: {
+      get() {
+        return this.$store.state.book.category.id;
+      }, 
+      set(value) {
+       this.$store.dispatch('bookCategoy', value);
+      }
+    },
+    storeBookCode: {
+      get() {
+        return this.$store.state.book.code;
+      }, 
+      set(value) {
+       this.$store.dispatch('bookCode', value);
+      }
+    },
+    storeBookType: {
+      get() {
+        return this.$store.state.book.type;
+      }, 
+      set(value) {
+       this.$store.dispatch('bookType', value);
+      }
+    },
+    storeBookSize: {
+      get() {
+        return this.$store.state.book.size;
+      }, 
+      set(value) {
+       this.$store.dispatch('bookSize', value);
+      }
+    },
   },
   methods: {
     list() {
-      // Book.list().then((response) => {
-      //   console.log(response.data.data);
-      //   this.books = response.data.data;
-      // });
-
-      this.$store.dispatch('list').then((response) => {
+      this.$store.dispatch("list").then((response) => {
         this.books = response.data.data;
       });
     },
@@ -243,11 +294,12 @@ export default {
       });
     },
     save() {
-      if (!this.book.id) {
+      if (!this.$store.state.book.id) {
 
         this.book.category_id = this.book.category.id;
 
-        this.$store.dispatch('add', this.book)
+        this.$store
+          .dispatch("saveBook", this.$store.state.book)
           .then((response) => {
             console.log(response);
             alert('Cadastrado com sucesso"');
@@ -258,15 +310,11 @@ export default {
             console.log(error.response.data);
             this.errors = error.response.data.errors;
           });
-
       } else {
-
-        this.book.category_id = this.book.category.id;
-
-        Book.update(this.book)
+        this.$store
+          .dispatch("update", this.$store.state.book)
           .then((response) => {
             console.log(response);
-            //this.book = {};
             alert('Atualizado com sucesso"');
             this.list();
             this.errors = [];
@@ -278,8 +326,7 @@ export default {
       }
     },
     update(book) {
-      console.log(book);
-      this.book = book;
+      this.$store.commit('UPDATE_BOOK', book);
     },
     remove(book) {
       Book.delete(book)

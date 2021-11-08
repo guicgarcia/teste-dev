@@ -8,7 +8,6 @@ export default {
         return http.get('livros/' + book.id, book)
     },
     store:(book) => {
-        console.log(book);
         return http.post('livros', book)
     },
     update:(book) => {
@@ -21,11 +20,9 @@ export default {
         return http.get('livros/categories')
     },
     filterName:(book) => {
-        console.log(book);
         return http.post('livros/filter', book)
     },
     filterCategory:(book) => {
-        console.log(book);
         return http.post('livros/filter', book)
     },
     filterType:(book) => {

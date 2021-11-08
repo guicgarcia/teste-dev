@@ -13,12 +13,25 @@ const store = new Vuex.Store({
       code: '',
       type: '',
       size: '',
+      category: {
+          id: '',
+          name: '',
+      }
     }
+  },
+  mutations: {
+    // ADD_BOOK(payload) {
+    //     return http.post('livros', payload)
+    // },
   },
   actions: {
       list() {
           return http.get('livros')
       },
+      add(context, payload) {
+          //context.commit('ADD_BOOK', payload)
+          return http.post('livros', payload)
+      }
   },
 })
 

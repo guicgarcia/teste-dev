@@ -179,6 +179,7 @@
 
 <script>
 import Book from "./services/books";
+import { mapState } from 'vuex'
 
 export default {
   name: "App",
@@ -211,6 +212,12 @@ export default {
 
     //console.log(this.$store.actions.list);
   },
+  computed: { 
+    ...mapState({
+      name: state => state.name,
+      author: state => state.author,
+    })
+  },
   methods: {
     list() {
       // Book.list().then((response) => {
@@ -237,21 +244,25 @@ export default {
     },
     save() {
       if (!this.book.id) {
+
         this.book.category_id = this.book.category.id;
-        Book.store(this.book)
-          .then(() => {
-            // this.book.category = {};
-            // this.book = {};
+
+        this.$store.dispatch('add', this.book)
+          .then((response) => {
+            console.log(response);
             alert('Cadastrado com sucesso"');
             this.list();
             this.errors = [];
           })
           .catch((error) => {
-            console.log(error.response.data.errors.name[0]);
+            console.log(error.response.data);
             this.errors = error.response.data.errors;
           });
+
       } else {
+
         this.book.category_id = this.book.category.id;
+
         Book.update(this.book)
           .then((response) => {
             console.log(response);
